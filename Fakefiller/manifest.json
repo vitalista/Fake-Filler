@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Random Input Filler",
+    "version": "1.0",
+    "description": "Detects input fields and fills them with random characters.",
+    "permissions": ["scripting", "activeTab"],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+      }
+    },
+    "background": {
+      "service_worker": "background.js"
+    }
+  }
+  

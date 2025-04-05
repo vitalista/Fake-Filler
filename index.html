@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Input Fields</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    input, textarea, select {
+      display: block;
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 300px;
+      font-size: 16px;
+    }
+
+    label {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Sample Form for Testing</h2>
+
+  <div class="form-section">
+    <label for="name">Text</label>
+    <input type="text" id="name" placeholder="Enter your name" />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Enter your email" />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter password" />
+
+    <label for="bio">Textarea</label>
+    <textarea id="bio" placeholder="Write something about yourself"></textarea>
+
+    <label for="search">Search</label>
+    <input type="search" id="search" placeholder="Search here..." />
+
+    <label for="tel">Telephone</label>
+    <input type="tel" id="tel" placeholder="Phone number" />
+
+    <label for="url">URL</label>
+    <input type="url" id="url" placeholder="https://example.com" />
+
+    <label for="number">Number</label>
+    <input type="number" id="number" placeholder="Enter a number" />
+
+    <label for="date">Date</label>
+    <input type="date" id="date" />
+
+    <label for="time">Time</label>
+    <input type="time" id="time" />
+
+    <label for="datetime">Datetime-local</label>
+    <input type="datetime-local" id="datetime" />
+
+    <label for="color">Color</label>
+    <input type="color" id="color" />
+
+    <label for="range">Range</label>
+    <input type="range" id="range" min="0" max="100" />
+
+    <label for="checkbox">Checkbox</label>
+    <input type="checkbox" id="checkbox" />
+
+    <label for="radio1">Radio Button 1</label>
+    <input type="radio" name="radio-group" id="radio1" />
+    <label for="radio2">Radio Button 2</label>
+    <input type="radio" name="radio-group" id="radio2" />
+
+    <label for="file">File</label>
+    <input type="file" id="file" />
+
+    <input type="text" disabled>
+    <input type="text" readonly>
+    <input type="month" name="month" id="month">
+    <input type="week" name="week" id="week">
+    <input type="hidden" id="hidden" value="Hidden Value" />
+
+
+    <label for="select">Select (dropdown)</label>
+    <select id="select">
+      <option value="">Please choose</option>
+      <option value="opt1">Option 1</option>
+      <option value="opt2">Option 2</option>
+    </select>
+  </div>
+
+  <button type="submit">Submit</button>
+</body>
+</html>
