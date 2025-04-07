@@ -84,34 +84,49 @@ function fillInputsWithRandomText() {
       input.value = randomText;
     }
 
-    if(input.type === "week"){
-        const currentYear = new Date().getFullYear();
-        const randomWeek = Math.floor(Math.random() * 52) + 1;
-        const randomWeekFormatted = `${currentYear}-W${randomWeek.toString().padStart(2, '0')}`;
-        input.value = randomWeekFormatted;
+    if (input.type === "week") {
+      const currentYear = new Date().getFullYear();
+      const randomWeek = Math.floor(Math.random() * 52) + 1;
+      const randomWeekFormatted = `${currentYear}-W${randomWeek
+        .toString()
+        .padStart(2, "0")}`;
+      input.value = randomWeekFormatted;
     }
 
-    if(input.type === "range"){
-        const randomRange = Math.floor(Math.random() * (input.max - input.min + 1)) + parseInt(input.min);
-        input.value = randomRange;
+    if (input.type === "range") {
+      const randomRange =
+        Math.floor(Math.random() * (input.max - input.min + 1)) +
+        parseInt(input.min);
+      input.value = randomRange;
     }
-
   });
 
   const selects = document.querySelectorAll("select");
   selects.forEach((select) => {
+    if (select.hasAttribute("readonly") || select.hasAttribute("disabled")) {
+      return;
+    }
     const options = Array.from(select.querySelectorAll("option"));
-  const validOptions = options.filter(option => !option.disabled && !option.selected);
-  if (validOptions.length > 0) {
-    const randomIndex = Math.floor(Math.random() * validOptions.length);
-    select.selectedIndex = Array.from(select.options).indexOf(validOptions[randomIndex]);
-  }
+    const validOptions = options.filter(
+      (option) => !option.disabled && !option.selected
+    );
+    if (validOptions.length > 0) {
+      const randomIndex = Math.floor(Math.random() * validOptions.length);
+      select.selectedIndex = Array.from(select.options).indexOf(
+        validOptions[randomIndex]
+      );
+    }
   });
 
-    const textareas = document.querySelectorAll("textarea");
-    textareas.forEach((textarea) => {
-        const randomText = Math.random().toString(36).substring(2, 10);
-        textarea.value = randomText;
+  const textareas = document.querySelectorAll("textarea");
+  textareas.forEach((textarea) => {
+    if (
+      textarea.hasAttribute("readonly") ||
+      textarea.hasAttribute("disabled")
+    ) {
+      return;
     }
-    );
+    const randomText = Math.random().toString(36).substring(2, 10);
+    textarea.value = randomText;
+  });
 }
