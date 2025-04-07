@@ -100,9 +100,12 @@ function fillInputsWithRandomText() {
 
   const selects = document.querySelectorAll("select");
   selects.forEach((select) => {
-    const options = select.querySelectorAll("option");
-    const randomIndex = Math.floor(Math.random() * options.length);
-    select.selectedIndex = randomIndex;
+    const options = Array.from(select.querySelectorAll("option"));
+  const validOptions = options.filter(option => !option.disabled && !option.selected);
+  if (validOptions.length > 0) {
+    const randomIndex = Math.floor(Math.random() * validOptions.length);
+    select.selectedIndex = Array.from(select.options).indexOf(validOptions[randomIndex]);
+  }
   });
 
     const textareas = document.querySelectorAll("textarea");
