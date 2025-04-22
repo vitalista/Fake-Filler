@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Random Input Filler",
-    "version": "1.0",
+    "version": "2.0",
     "description": "Detects input fields and fills them with random characters.",
     "permissions": ["scripting", "activeTab"],
     "action": {

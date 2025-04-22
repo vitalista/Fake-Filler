@@ -8,131 +8,132 @@ document.getElementById("fillBtn").addEventListener("click", async () => {
 });
 
 function fillInputsWithRandomText() {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+    window.HTMLInputElement.prototype,
+    "value"
+  ).set;
+
   const inputs = document.querySelectorAll("input");
   inputs.forEach((input) => {
-    if (input.hasAttribute("readonly") || input.hasAttribute("disabled")) {
-      return;
-    }
-    if (input.type === "checkbox" || input.type === "radio") {
-      input.checked = Math.random() < 0.5;
-    }
-    if (input.type === "number") {
-      if(input.hasAttribute('maxlength')){
-        const maxLength = parseInt(input.getAttribute('maxlength'));
-        const randomNum = Math.floor(Math.random() * Math.pow(10, maxLength));
-        input.value = randomNum.toString().padStart(maxLength, '0');
+    if (input.hasAttribute("readonly") || input.hasAttribute("disabled")) return;
+
+    let valueToSet = null;
+
+    switch (input.type) {
+      case "text":
+      case "search":
+        valueToSet = Math.random().toString(36).substring(2, 10);
+        break;
+
+      case "checkbox":
+      case "radio":
+        input.checked = Math.random() < 0.5;
+        return; // no value to set
+
+      case "number":
+        if (input.hasAttribute('maxlength')) {
+          const maxLength = parseInt(input.getAttribute('maxlength'));
+          const randomNum = Math.floor(Math.random() * Math.pow(10, maxLength));
+          valueToSet = randomNum.toString().padStart(maxLength, '0');
+        } else {
+          valueToSet = Math.floor(Math.random() * 10);
+        }
+        break;
+
+      case "date":
+        valueToSet = new Date(Date.now() + Math.floor(Math.random() * 1e10))
+          .toISOString().split("T")[0];
+        break;
+
+      case "color":
+        valueToSet = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
+        break;
+
+      case "file":
         return;
-      }
-      const randomNum = Math.floor(Math.random() * 10);
-      input.value = randomNum;
-    }
-    if (input.type === "date") {
-      const randomDate = new Date(
-        Date.now() + Math.floor(Math.random() * 10000000000)
-      );
-      input.value = randomDate.toISOString().split("T")[0];
-    }
-    if (input.type === "color") {
-      const randomColor =
-        "#" + Math.floor(Math.random() * 16777215).toString(16);
-      input.value = randomColor;
-    }
-    if (input.type === "file") {
-      return;
+
+      case "email":
+        valueToSet = Math.random().toString(36).substring(2, 10) + "@example.com";
+        break;
+
+      case "tel":
+        valueToSet = Math.floor(Math.random() * 1000000000).toString();
+        break;
+
+      case "url":
+        valueToSet = "https://www." + Math.random().toString(36).substring(2, 10) + ".com";
+        break;
+
+      case "datetime-local":
+        valueToSet = new Date(Date.now() + Math.floor(Math.random() * 1e10))
+          .toISOString().slice(0, 16);
+        break;
+
+      case "time":
+        valueToSet = new Date(Date.now() + Math.floor(Math.random() * 1e10))
+          .toISOString().slice(11, 16);
+        break;
+
+      case "month":
+        valueToSet = new Date(Date.now() + Math.floor(Math.random() * 1e10))
+          .toISOString().slice(0, 7);
+        break;
+
+      case "hidden":
+        return;
+
+      case "password":
+        valueToSet = "Admin@123";
+        break;
+
+      case "week":
+        const currentYear = new Date().getFullYear();
+        const randomWeek = Math.floor(Math.random() * 52) + 1;
+        valueToSet = `${currentYear}-W${randomWeek.toString().padStart(2, "0")}`;
+        break;
+
+      case "range":
+        const min = parseInt(input.min || 0);
+        const max = parseInt(input.max || 100);
+        valueToSet = Math.floor(Math.random() * (max - min + 1)) + min;
+        break;
+
+      default:
+        return;
     }
 
-    if (input.type === "email") {
-      const randomEmail =
-        Math.random().toString(36).substring(2, 10) + "@example.com";
-      input.value = randomEmail;
-    }
-    if (input.type === "tel") {
-      const randomPhone = Math.floor(Math.random() * 1000000000);
-      input.value = randomPhone;
-    }
-
-    if (input.type === "url") {
-      const randomUrl =
-        "https://www." + Math.random().toString(36).substring(2, 10) + ".com";
-      input.value = randomUrl;
-    }
-
-    if (input.type === "datetime-local") {
-      const randomDateTime = new Date(
-        Date.now() + Math.floor(Math.random() * 10000000000)
-      );
-      input.value = randomDateTime.toISOString().slice(0, 16);
-    }
-    if (input.type === "time") {
-      const randomTime = new Date(
-        Date.now() + Math.floor(Math.random() * 10000000000)
-      );
-      input.value = randomTime.toISOString().slice(11, 16);
-    }
-    if (input.type === "month") {
-      const randomMonth = new Date(
-        Date.now() + Math.floor(Math.random() * 10000000000)
-      );
-      input.value = randomMonth.toISOString().slice(0, 7);
-    }
-
-    if (input.type === "hidden") {
-      return;
-    }
-
-    if (input.type === "password") {
-      const password = "Admin@123";
-      input.value = password;
-    }
-
-    if (input.type === "text" || input.type === "search") {
-      const randomText = Math.random().toString(36).substring(2, 10);
-      input.value = randomText;
-    }
-
-    if (input.type === "week") {
-      const currentYear = new Date().getFullYear();
-      const randomWeek = Math.floor(Math.random() * 52) + 1;
-      const randomWeekFormatted = `${currentYear}-W${randomWeek
-        .toString()
-        .padStart(2, "0")}`;
-      input.value = randomWeekFormatted;
-    }
-
-    if (input.type === "range") {
-      const randomRange =
-        Math.floor(Math.random() * (input.max - input.min + 1)) +
-        parseInt(input.min);
-      input.value = randomRange;
+    if (valueToSet !== null) {
+      nativeInputValueSetter.call(input, valueToSet);
+      input.dispatchEvent(new Event("input", { bubbles: true }));
     }
   });
 
   const selects = document.querySelectorAll("select");
   selects.forEach((select) => {
-    if (select.hasAttribute("readonly") || select.hasAttribute("disabled")) {
-      return;
-    }
-    const options = Array.from(select.querySelectorAll("option"));
-    const validOptions = options.filter(
-      (option) => !option.disabled && !option.selected
+    if (select.hasAttribute("readonly") || select.hasAttribute("disabled")) return;
+
+    const options = Array.from(select.options).filter(
+      (option) => !option.disabled
     );
-    if (validOptions.length > 0) {
-      const randomIndex = Math.floor(Math.random() * validOptions.length);
-      select.selectedIndex = Array.from(select.options).indexOf(
-        validOptions[randomIndex]
-      );
+
+    if (options.length > 0) {
+      const randomIndex = Math.floor(Math.random() * options.length);
+      select.selectedIndex = randomIndex;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
     }
   });
 
   const textareas = document.querySelectorAll("textarea");
   textareas.forEach((textarea) => {
-    if (
-      textarea.hasAttribute("readonly") ||
-      textarea.hasAttribute("disabled")
-    ) {
-      return;
-    }
+    if (textarea.hasAttribute("readonly") || textarea.hasAttribute("disabled")) return;
+
     const randomText = Math.random().toString(36).substring(2, 10);
-    textarea.value = randomText;
+    const nativeTextAreaValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLTextAreaElement.prototype,
+      "value"
+    ).set;
+    nativeTextAreaValueSetter.call(textarea, randomText);
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
   });
 }
+
