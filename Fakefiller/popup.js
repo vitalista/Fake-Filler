@@ -17,7 +17,13 @@ function fillInputsWithRandomText() {
       input.checked = Math.random() < 0.5;
     }
     if (input.type === "number") {
-      const randomNum = Math.floor(Math.random() * 100);
+      if(input.hasAttribute('maxlength')){
+        const maxLength = parseInt(input.getAttribute('maxlength'));
+        const randomNum = Math.floor(Math.random() * Math.pow(10, maxLength));
+        input.value = randomNum.toString().padStart(maxLength, '0');
+        return;
+      }
+      const randomNum = Math.floor(Math.random() * 10);
       input.value = randomNum;
     }
     if (input.type === "date") {
